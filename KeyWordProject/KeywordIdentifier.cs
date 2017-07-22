@@ -17,17 +17,8 @@ namespace KeyWordProject
         {
             return string.Join(' ',
                 input.Split(' ', StringSplitOptions.RemoveEmptyEntries)
-                    .Select(word =>
-                    {
-                        if (_keywords.TryGetValue(word.ToLower(), out string color))
-                        {
-                            return $"[{color}]{word}[{color}]";
-                        }
-                        else
-                        {
-                            return word;
-                        }
-                    }).ToArray());
+                     .Select(word => _keywords.TryGetValue(word.ToLower(), out string color) ? $"[{color}]{word}[{color}]" : word)
+                     .ToArray());
         }
     }
 }
