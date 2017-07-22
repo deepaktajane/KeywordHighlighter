@@ -6,9 +6,9 @@ namespace KeyWordProject
 {
     public class KeywordIdentifier
     {
-        private List<string> _keywords;
+        private IDictionary<string, string> _keywords;
 
-        public KeywordIdentifier(List<string> keywords)
+        public KeywordIdentifier(IDictionary<string, string> keywords)
         {
             _keywords = keywords;
         }
@@ -17,7 +17,17 @@ namespace KeyWordProject
         {
             return string.Join(' ',
                 input.Split(' ', StringSplitOptions.RemoveEmptyEntries)
-                    .Select(word => _keywords.Contains(word.ToLower()) ? $"[blue]{word}[blue]" : word).ToArray());
+                    .Select(word =>
+                    {
+                        if (_keywords.TryGetValue(word.ToLower(), out string color))
+                        {
+                            return $"[{color}]{word}[{color}]";
+                        }
+                        else
+                        {
+                            return word;
+                        }
+                    }).ToArray());
         }
     }
 }
